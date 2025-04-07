@@ -1,0 +1,38 @@
+<div class="form-container">
+    <h2>Add New Book</h2>
+    <form action="/books" method="POST">
+        <div class="form-group">
+            <label for="title">Book Title</label>
+            <input type="text" id="title" name="title" class="form-control" value="<%= title || '' %>" required>
+        </div>
+        <div class="form-group">
+            <label for="author">Author</label>
+            <input type="text" id="author" name="author" class="form-control" value="<%= author || '' %>" required>
+        </div>
+        <div class="form-group">
+            <label for="isbn">ISBN (optional)</label>
+            <input type="text" id="isbn" name="isbn" class="form-control" value="<%= isbn || '' %>">
+        </div>
+        <div class="form-group">
+            <label for="read_date">Read Date</label>
+            <input type="date" id="read_date" name="read_date" class="form-control" value="<%= read_date || '' %>" required>
+        </div>
+        <div class="form-group">
+            <label for="rating">Rating</label>
+            <select id="rating" name="rating" class="form-control" required>
+                <option value="">Select a rating</option>
+                <% for (let i = 1; i <= 5; i++) { %>
+                    <option value="<%= i %>" <%= rating == i ? 'selected' : '' %>><%= i %> - <%= ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'][i - 1] %></option>
+                <% } %>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="review">Review (optional)</label>
+            <textarea id="review" name="review" class="form-control" rows="4"><%= review || '' %></textarea>
+        </div>
+        <button type="submit" class="btn btn-add">
+            <i class="fas fa-plus"></i>
+            Add Book
+        </button>
+    </form>
+</div>

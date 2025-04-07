@@ -1,0 +1,86 @@
+<%- include('partials/header') %>
+
+<main>
+    <div class="sort-controls">
+        <label for="sort">Sort by:</label>
+        <select id="sort" onchange="window.location.href='/?sort=' + this.value">
+            <option value="title">Title</option>
+            <option value="rating">Rating</option>
+            <option value="date">Read Date</option>
+        </select>
+    </div>
+
+    <div class="form-container">
+        <form action="/add" method="POST">
+            <div class="form-group">
+                <label for="title">Book Title</label>
+                <input type="text" id="title" name="title" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="author">Author</label>
+                <input type="text" id="author" name="author" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="isbn">ISBN (optional)</label>
+                <input type="text" id="isbn" name="isbn" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="read_date">Read Date</label>
+                <input type="date" id="read_date" name="read_date" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="rating">Rating</label>
+                <select id="rating" name="rating" class="form-control" required>
+                    <option value="">Select Rating</option>
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★☆</option>
+                    <option value="3">★★★☆☆</option>
+                    <option value="2">★★☆☆☆</option>
+                    <option value="1">★☆☆☆☆</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="review">Review (optional)</label>
+                <textarea id="review" name="review" class="form-control"></textarea>
+            </div>
+            <button type="submit" class="add-btn">Add Book</button>
+        </form>
+    </div>
+
+    <div class="books-grid">
+        <% if (books && books.length > 0) { %>
+            <% books.forEach(book => { %>
+                <div class="book-card">
+                    <div class="book-cover">
+                        <% if (book.isbn) { %>
+                            <img src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-M.jpg" alt="<%= book.title %>">
+                        <% } else { %>
+                            <div class="placeholder-cover"></div>
+                        <% } %>
+                    </div>
+                    <div class="book-info">
+                        <h3><%= book.title %></h3>
+                        <p class="author"><%= book.author %></p>
+                        <div class="rating">
+                            <% for(let i = 1; i <= 5; i++) { %>
+                                <span class="star <%= i <= parseInt(book.rating) ? 'filled' : '' %>">★</span>
+                            <% } %>
+                        </div>
+                        <p class="date">Read on: <%= new Date(book.read_date).toLocaleDateString('en-US') %></p>
+                    </div>
+                    <div class="actions">
+                        <a href="/books/<%= book.id %>" class="btn">View</a>
+                        <form action="/delete" method="POST">
+                            <input type="hidden" name="deleteItemId" value="<%= book.id %>">
+                            <button type="submit" class="btn delete">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>No books added yet.</p>
+        <% } %>
+    </div>
+</main>
+
+<%- include('partials/footer') %>

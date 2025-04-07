@@ -1,0 +1,57 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <div class="form-container">
+        <h2>Edit Book</h2>
+        <form action="/update" method="POST">
+            <input type="hidden" name="id" value="<%= book.id %>">
+            
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" value="<%= book.title %>" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="author">Author</label>
+                <input type="text" id="author" name="author" value="<%= book.author %>" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="isbn">ISBN</label>
+                <input type="text" id="isbn" name="isbn" value="<%= book.isbn %>" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="read_date">Read Date</label>
+                <input type="date" id="read_date" name="read_date" value="<%= book.read_date ? book.read_date.toISOString().split('T')[0] : '' %>" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="rating">Rating</label>
+                <select id="rating" name="rating" class="form-control">
+                    <option value="">Select rating</option>
+                    <% for(let i = 1; i <= 5; i++) { %>
+                        <option value="<%= i %>" <%= book.rating === i ? 'selected' : '' %>><%= i %> star<%= i !== 1 ? 's' : '' %></option>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="review">Review</label>
+                <textarea id="review" name="review" class="form-control" rows="4"><%= book.review || '' %></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="cover_url">Cover URL</label>
+                <input type="url" id="cover_url" name="cover_url" value="<%= book.cover_url || '' %>" class="form-control">
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn">Save Changes</button>
+                <a href="/" class="btn">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('partials/footer') %> 

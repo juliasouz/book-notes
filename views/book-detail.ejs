@@ -1,0 +1,136 @@
+<%- include('partials/header') %>
+
+<div class="book-detail">
+    <div class="book-header">
+        <% if (book.isbn) { %>
+            <img src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-L.jpg" alt="<%= book.title %> cover">
+        <% } %>
+        <div class="book-header-info">
+            <h2><%= book.title %></h2>
+            <div class="book-metadata">
+                <p class="author">by <%= book.author %></p>
+                <% if (book.isbn) { %>
+                    <p><strong>ISBN:</strong> <%= book.isbn %></p>
+                <% } %>
+                <% if (book.read_date) { %>
+                    <p><strong>Read on:</strong> <%= new Date(book.read_date).toLocaleDateString() %></p>
+                <% } %>
+                <% if (book.rating) { %>
+                    <div class="rating">
+                        <strong>Rating:</strong>
+                        <% for(let i = 0; i < book.rating; i++) { %>
+                            <i class="fas fa-star"></i>
+                        <% } %>
+                        <% for(let i = book.rating; i < 5; i++) { %>
+                            <i class="far fa-star"></i>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+            
+            <% if (book.review) { %>
+                <div class="review">
+                    <h3>Review</h3>
+                    <p><%= book.review %></p>
+                </div>
+            <% } %>
+
+            <div class="book-actions">
+                <form action="/edit" method="POST">
+                    <input type="hidden" name="updatedItemId" value="<%= book.id %>">
+                    <button type="submit" class="btn edit">
+                        <i class="fas fa-edit"></i>
+                        Edit Book
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="notes-section">
+        <h3>Notes</h3>
+        <form class="note-form">
+            <div class="form-group">
+                <label for="chapter">Chapter or Topic</label>
+                <input type="text" id="chapter" name="chapter" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="note_text">Note</label>
+                <textarea id="note_text" name="note_text" class="form-control" required></textarea>
+            </div>
+            <div class="form-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="isKeyTakeaway" name="is_key_takeaway">
+                    Mark as key takeaway
+                </label>
+            </div>
+            <button type="button" class="btn add-btn">Add Note</button>
+        </form>
+
+        <div class="note-list">
+            <% if (notes && notes.length > 0) { %>
+                <% notes.forEach(note => { %>
+                    <div class="note-item <%= note.is_key_takeaway ? 'key-takeaway' : '' %>">
+                        <% if (note.chapter) { %>
+                            <h4><%= note.chapter %></h4>
+                        <% } %>
+                        <p><%= note.note_text %></p>
+                        <small>Added on <%= new Date(note.created_at).toLocaleDateString() %></small>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p class="no-notes">No notes yet. Add your first note above!</p>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <a href="/" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Back to Library
+        </a>
+    </div>
+</footer>
+
+<script>
+async function addNote() {
+    const chapter = document.getElementById('chapter').value;
+    const note_text = document.getElementById('note_text').value;
+    const isKeyTakeaway = document.getElementById('isKeyTakeaway').checked;
+
+    if (!note_text.trim()) {
+        alert('Note text cannot be empty');
+        return;
+    }
+
+    try {
+        const response = await fetch('/books/<%= book.id %>/notes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                chapter,
+                note_text,
+                is_key_takeaway: isKeyTakeaway
+            })
+        });
+
+        if (response.ok) {
+            window.location.reload();
+        } else {
+            const data = await response.json();
+            alert(data.error || 'Failed to add note. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to add note. Please try again.');
+    }
+}
+
+document.querySelector('.add-btn').addEventListener('click', addNote);
+</script>
+
+<%- include('partials/footer') %> 
