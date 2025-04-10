@@ -1,6 +1,6 @@
 # BookShelf - Your Personal Reading Tracker
 
-BookShelf is a modern web application to manage your personal library, take notes about books, and track your reading progress.
+BookShelf is a modern web app to manage your personal library, take notes about books, and track your reading progress.
 
 ## Features
 
@@ -35,7 +35,7 @@ BookShelf is a modern web application to manage your personal library, take note
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/bookshelf.git
+git clone https://github.com/juliasouz/book-notes.git
 cd bookshelf
 ```
 
@@ -59,7 +59,7 @@ The application will be available at `http://localhost:3000`
 ## Project Structure
 
 ```
-bookshelf/
+book-notes/
 ├── public/
 │   ├── styles.css        # Global styles
 │   └── js/
