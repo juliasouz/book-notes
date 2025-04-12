@@ -1,6 +1,6 @@
 # BookShelf - Your Personal Reading Tracker
 
-BookShelf is a modern web application to manage your personal library, take notes about books, and track your reading progress.
+BookShelf is a modern web app to manage your personal library, take notes about books, and track your reading progress.
 
 ## Features
 
@@ -31,35 +31,10 @@ BookShelf is a modern web application to manage your personal library, take note
 - PostgreSQL (version 12 or higher)
 - NPM or Yarn
 
-## Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/your-username/bookshelf.git
-cd bookshelf
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Set up the database:
-- Create a PostgreSQL database
-- Run the `query.sql` file to create the necessary tables
-- Configure database credentials in the `.env` file
-
-4. Start the server:
-```bash
-npm start
-```
-
-The application will be available at `http://localhost:3000`
-
 ## Project Structure
 
 ```
-bookshelf/
+book-notes/
 ├── public/
 │   ├── styles.css        # Global styles
 │   └── js/
