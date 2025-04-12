@@ -2,10 +2,10 @@ import express from 'express';
 import pg from 'pg';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
-import dotenv from 'dotenv';
+import env from 'dotenv';
 import { fileURLToPath } from 'url';
 
-dotenv.config();
+env.config();
 
 const __filename = fileURLToPath(import.meta.url);
 
